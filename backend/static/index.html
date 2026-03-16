@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Management MVP - Backend Scaffold</title>
+    <style>
+      :root {
+        --accent-yellow: #ecad0a;
+        --primary-blue: #209dd7;
+        --secondary-purple: #753991;
+        --navy-dark: #032147;
+        --gray-text: #888888;
+        --surface: #f7f8fb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: var(--surface);
+        color: var(--navy-dark);
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .card {
+        width: min(640px, 100%);
+        background: white;
+        border: 1px solid rgba(3, 33, 71, 0.1);
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 20px 40px rgba(3, 33, 71, 0.1);
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+      }
+
+      p {
+        margin: 0;
+        color: var(--gray-text);
+        line-height: 1.5;
+      }
+
+      button {
+        margin-top: 18px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--secondary-purple);
+        color: white;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button:hover {
+        filter: brightness(1.08);
+      }
+
+      .status {
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(32, 157, 215, 0.1);
+        border: 1px solid rgba(32, 157, 215, 0.25);
+        color: var(--primary-blue);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Hello world from FastAPI</h1>
+      <p>
+        This is the Part 2 scaffold page served by the backend at
+        <code>/</code>.
+      </p>
+      <button id="api-button" type="button">Call /api/hello</button>
+      <div id="api-response" class="status" aria-live="polite">
+        API response will appear here.
+      </div>
+    </main>
+    <script>
+      const button = document.getElementById("api-button");
+      const output = document.getElementById("api-response");
+
+      async function callApi() {
+        output.textContent = "Calling API...";
+        try {
+          const response = await fetch("/api/hello");
+          if (!response.ok) {
+            throw new Error("Request failed with status " + response.status);
+          }
+          const data = await response.json();
+          output.textContent = data.message;
+        } catch (error) {
+          output.textContent = "API call failed: " + error.message;
+        }
+      }
+
+      button.addEventListener("click", callApi);
+    </script>
+  </body>
+</html>
