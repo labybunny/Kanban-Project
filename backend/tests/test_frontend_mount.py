@@ -12,7 +12,7 @@ def test_frontend_dist_is_served_from_root(tmp_path: Path) -> None:
         "<!doctype html><html><body><h1>Kanban Studio</h1></body></html>",
         encoding="utf-8",
     )
-    client = TestClient(create_app(frontend_dist_dir=tmp_path))
+    client = TestClient(create_app(frontend_dist_dir=tmp_path, db_path=tmp_path / "pm.db"))
 
     response = client.get("/")
 
@@ -22,7 +22,7 @@ def test_frontend_dist_is_served_from_root(tmp_path: Path) -> None:
 
 def test_api_routes_take_precedence_over_frontend_mount(tmp_path: Path) -> None:
     (tmp_path / "index.html").write_text("<html></html>", encoding="utf-8")
-    client = TestClient(create_app(frontend_dist_dir=tmp_path))
+    client = TestClient(create_app(frontend_dist_dir=tmp_path, db_path=tmp_path / "pm.db"))
 
     response = client.get("/api/health")
 

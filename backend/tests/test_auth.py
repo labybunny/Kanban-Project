@@ -1,22 +1,13 @@
-from pathlib import Path
-import sys
-
 from fastapi.testclient import TestClient
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from app.main import create_app
-
-client = TestClient(create_app(frontend_dist_dir=Path(__file__).resolve().parents[1] / "static"))
-
-
-def test_auth_me_requires_session() -> None:
+def test_auth_me_requires_session(client: TestClient) -> None:
     response = client.get("/api/auth/me")
 
     assert response.status_code == 401
     assert response.json() == {"detail": "Unauthorized"}
 
 
-def test_login_rejects_invalid_credentials() -> None:
+def test_login_rejects_invalid_credentials(client: TestClient) -> None:
     response = client.post(
         "/api/auth/login",
         json={"username": "user", "password": "wrong-password"},
@@ -26,7 +17,7 @@ def test_login_rejects_invalid_credentials() -> None:
     assert response.json() == {"detail": "Invalid credentials"}
 
 
-def test_login_and_logout_session_flow() -> None:
+def test_login_and_logout_session_flow(client: TestClient) -> None:
     login_response = client.post(
         "/api/auth/login",
         json={"username": "user", "password": "password"},

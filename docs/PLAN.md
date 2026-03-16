@@ -111,47 +111,47 @@ The sequence is intentional. Do not start the next part until the current part p
 
 ### Checklist
 
-- [ ] Design SQLite schema for users, boards, and board state
-- [ ] Store board state as JSON payload linked to `user_id` and `board_id`
-- [ ] Define migration/init strategy for creating DB if missing
-- [ ] Define validation rules for board JSON shape
-- [ ] Document schema and rationale in `docs/`
-- [ ] Present schema docs to user and get explicit sign-off before backend CRUD implementation
+- [x] Design SQLite schema for users, boards, and board state
+- [x] Store board state as JSON payload linked to `user_id` and `board_id`
+- [x] Define migration/init strategy for creating DB if missing
+- [x] Define validation rules for board JSON shape
+- [x] Document schema and rationale in `docs/`
+- [x] Present schema docs to user and get explicit sign-off before backend CRUD implementation
 
 ### Tests
 
-- [ ] `pytest` tests for DB initialization and schema creation
-- [ ] `pytest` tests for read/write of board JSON per user/board
-- [ ] Validation tests for invalid JSON shape rejection
+- [x] `pytest` tests for DB initialization and schema creation
+- [x] `pytest` tests for read/write of board JSON per user/board
+- [x] Validation tests for invalid JSON shape rejection
 
 ### Success Criteria
 
-- [ ] Database schema is documented and approved by user
-- [ ] Data model supports one board per user now and future extensibility
+- [x] Database schema is documented and approved by user
+- [x] Data model supports one board per user now and future extensibility
 
 ## Part 6 - Backend Kanban API
 
 ### Checklist
 
-- [ ] Implement API routes to fetch/update board for authenticated user
-- [ ] Ensure board records are resolved by authenticated user and board ID
-- [ ] Create board automatically for a user if first access (or seed default board)
-- [ ] Persist updates to SQLite JSON payload
-- [ ] Add request/response models and validation
-- [ ] Add consistent backend error responses
+- [x] Implement API routes to fetch/update board for authenticated user
+- [x] Ensure board records are resolved by authenticated user and board ID
+- [x] Create board automatically for a user if first access (or seed default board)
+- [x] Persist updates to SQLite JSON payload
+- [x] Add request/response models and validation
+- [x] Add consistent backend error responses
 
 ### Tests
 
-- [ ] `pytest` unit tests for service/model validation logic
-- [ ] `pytest` API tests for authenticated reads/writes
-- [ ] `pytest` tests for DB auto-create behavior on fresh environment
-- [ ] `pytest` authorization tests to prevent cross-user access
+- [x] `pytest` unit tests for service/model validation logic
+- [x] `pytest` API tests for authenticated reads/writes
+- [x] `pytest` tests for DB auto-create behavior on fresh environment
+- [x] `pytest` authorization tests to prevent cross-user access
 
 ### Success Criteria
 
-- [ ] Backend supports reliable persisted board reads/writes
-- [ ] APIs are session-protected and user-scoped
-- [ ] Fresh local run creates DB automatically and works without manual DB setup
+- [x] Backend supports reliable persisted board reads/writes
+- [x] APIs are session-protected and user-scoped
+- [x] Fresh local run creates DB automatically and works without manual DB setup
 
 ## Part 7 - Frontend + Backend Integration
 
