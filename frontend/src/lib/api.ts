@@ -65,3 +65,28 @@ export const updateBoard = async (
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ state }),
   });
+
+export type ChatHistoryTurn = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+export type AiChatResponse = {
+  model: string;
+  boardKey: string;
+  assistantResponse: string;
+  boardUpdated: boolean;
+  state: BoardData;
+  warning: string | null;
+};
+
+export const chatWithAi = async (
+  message: string,
+  history: ChatHistoryTurn[],
+  boardKey = "main"
+): Promise<AiChatResponse> =>
+  requestJson<AiChatResponse>("/api/ai/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message, history, boardKey }),
+  });

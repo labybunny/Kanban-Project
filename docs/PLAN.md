@@ -179,76 +179,76 @@ The sequence is intentional. Do not start the next part until the current part p
 
 ### Checklist
 
-- [ ] Add backend OpenRouter client integration using `OPENROUTER_API_KEY`
-- [ ] Implement minimal AI route for connectivity checks
-- [ ] Use `openai/gpt-oss-120b:free` model
-- [ ] Add secure config/error handling for missing key and provider failures
-- [ ] Add a controlled "2+2" connectivity test path
+- [x] Add backend OpenRouter client integration using `OPENROUTER_API_KEY`
+- [x] Implement minimal AI route for connectivity checks
+- [x] Use `openai/gpt-oss-120b:free` model
+- [x] Add secure config/error handling for missing key and provider failures
+- [x] Add a controlled "2+2" connectivity test path
 
 ### Tests
 
-- [ ] `pytest` unit tests with mocked OpenRouter responses
-- [ ] Optional live integration test (guarded) for "2+2" sanity check
-- [ ] Error-path tests for missing/invalid API key
+- [x] `pytest` unit tests with mocked OpenRouter responses
+- [x] Optional live integration test (guarded) for "2+2" sanity check
+- [x] Error-path tests for missing/invalid API key
 
 ### Success Criteria
 
-- [ ] Backend can successfully call OpenRouter and return model output
-- [ ] Connectivity and failure modes are verified and predictable
+- [x] Backend can successfully call OpenRouter and return model output
+- [x] Connectivity and failure modes are verified and predictable
 
 ## Part 9 - Structured Outputs for Kanban Updates
 
 ### Checklist
 
-- [ ] Define structured output schema with:
-  - [ ] assistant reply text
-  - [ ] optional board update operations
-- [ ] Send current board JSON + user message + conversation history to AI route
-- [ ] Validate AI structured output strictly on backend
-- [ ] Apply only valid operations to board model
-- [ ] Persist validated updates to DB
-- [ ] Reject/ignore malformed or unsafe operations with clear fallback response
-- [ ] Add audit-friendly logging for AI request/validation/application flow
+- [x] Define structured output schema with:
+  - [x] assistant reply text
+  - [x] optional board update operations
+- [x] Send current board JSON + user message + conversation history to AI route
+- [x] Validate AI structured output strictly on backend
+- [x] Apply only valid operations to board model
+- [x] Persist validated updates to DB
+- [x] Reject/ignore malformed or unsafe operations with clear fallback response
+- [x] Add audit-friendly logging for AI request/validation/application flow
 
 ### Tests
 
-- [ ] `pytest` schema validation tests (valid/invalid/missing fields)
-- [ ] `pytest` tests for operation application correctness
-- [ ] `pytest` tests proving backend refuses invalid AI updates
-- [ ] `pytest` integration tests for successful AI-driven board mutation persistence
+- [x] `pytest` schema validation tests (valid/invalid/missing fields)
+- [x] `pytest` tests for operation application correctness
+- [x] `pytest` tests proving backend refuses invalid AI updates
+- [x] `pytest` integration tests for successful AI-driven board mutation persistence
 
 ### Success Criteria
 
-- [ ] AI responses can safely propose board changes
-- [ ] Backend remains sole authority for validation and persistence
-- [ ] Invalid AI output cannot corrupt stored board state
+- [x] AI responses can safely propose board changes
+- [x] Backend remains sole authority for validation and persistence
+- [x] Invalid AI output cannot corrupt stored board state
 
 ## Part 10 - Sidebar AI Chat UX
 
 ### Checklist
 
-- [ ] Add sidebar chat UI to frontend with conversation history display
-- [ ] Connect chat UI to backend AI endpoint
-- [ ] Render assistant reply text from structured output
-- [ ] Automatically refresh/reconcile board when backend confirms AI-applied updates
-- [ ] Show pending/error/retry states for chat actions
-- [ ] Keep interactions accessible and visually aligned with project color scheme
+- [x] Add sidebar chat UI to frontend with conversation history display
+- [x] Connect chat UI to backend AI endpoint
+- [x] Render assistant reply text from structured output
+- [x] Automatically refresh/reconcile board when backend confirms AI-applied updates
+- [x] Show pending/error/retry states for chat actions
+- [x] Keep interactions accessible and visually aligned with project color scheme
 
 ### Tests
 
-- [ ] Frontend unit tests for sidebar state, rendering, and API error handling
-- [ ] Integration tests for chat send/receive cycle with mocked backend
-- [ ] E2E tests for end-to-end chat plus board auto-refresh behavior
-- [ ] Regression tests for core Kanban interactions (drag/edit/add/delete)
+- [x] Frontend unit tests for sidebar state, rendering, and API error handling
+- [x] Integration tests for chat send/receive cycle with mocked backend
+- [x] E2E tests for end-to-end chat plus board auto-refresh behavior
+- [x] Regression tests for core Kanban interactions (drag/edit/add/delete)
 
 ### Success Criteria
 
-- [ ] User can chat with AI in sidebar and receive useful responses
-- [ ] Valid AI board updates appear in board UI automatically
-- [ ] Existing Kanban functionality continues to work reliably
+- [x] User can chat with AI in sidebar and receive useful responses
+- [x] Valid AI board updates appear in board UI automatically
+- [x] Existing Kanban functionality continues to work reliably
 
 ## Definition of Done for Entire MVP
 
 - [ ] All part-level success criteria are met in sequence
-- [ ] Test suites pass (`pytest`, frontend unit, and frontend e2e)
-- [ ] App runs locally in Docker with backend sessions, persistent board state, and AI-assisted updates
+- [x] Test suites pass (`pytest`, frontend unit, and frontend e2e)
+- [x] App runs locally in Docker with backend sessions, persistent board state, and AI-assisted updates

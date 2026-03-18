@@ -145,6 +145,38 @@ test("persists renamed column after refresh", async ({ page }) => {
   );
 });
 
+test("ai chat updates board state in UI", async ({ page }) => {
+  await login(page);
+  await resetBoard(page);
+
+  await page.route("**/api/ai/chat", async (route) => {
+    const updatedState = JSON.parse(JSON.stringify(defaultBoardState));
+    updatedState.columns[0].title = "AI Roadmap";
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        model: "openai/gpt-oss-120b:free",
+        boardKey: "main",
+        assistantResponse: "Renamed Backlog to AI Roadmap.",
+        boardUpdated: true,
+        state: updatedState,
+        warning: null,
+      }),
+    });
+  });
+
+  await page
+    .getByPlaceholder("Example: Move card-1 to Review and rename Backlog to Roadmap.")
+    .fill("Rename backlog to AI Roadmap");
+  await page.getByRole("button", { name: /send to ai/i }).click();
+
+  await expect(page.getByText("Renamed Backlog to AI Roadmap.")).toBeVisible();
+  await expect(page.getByTestId("column-col-backlog").getByLabel("Column title")).toHaveValue(
+    "AI Roadmap"
+  );
+});
+
 test("logs out and returns to login screen", async ({ page }) => {
   await login(page);
   await page.getByRole("button", { name: /log out/i }).click();

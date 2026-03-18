@@ -29,6 +29,8 @@ It is exported as static assets and served by the FastAPI backend.
 - Board state is loaded from `GET /api/boards/main` after authentication
 - User edits are sent to `PUT /api/boards/main` and persist across refresh
 - UI includes loading, retry, and sync-error states for board API interactions
+- Sidebar AI chat sends prompts to `POST /api/ai/chat` with conversation history
+- AI responses are rendered in chat and board state is reconciled from backend response payload
 
 ## Key Files
 
@@ -46,8 +48,12 @@ It is exported as static assets and served by the FastAPI backend.
   - Top-level board state, drag lifecycle, rename/add/delete handlers
   - Optimistic updates with persistence callback on board changes
   - Shows signed-in user and logout action when authenticated
+- `src/components/AiSidebar.tsx`
+  - Sidebar chat widget for user/assistant conversation flow
+  - Handles pending, error, and warning states for AI responses
+  - Syncs board state when backend confirms updates
 - `src/lib/api.ts`
-  - Typed frontend API helpers for auth and board read/update requests
+  - Typed frontend API helpers for auth, board read/update, and AI chat requests
 - `src/components/KanbanColumn.tsx`
   - Column UI, droppable container, title input, card list, new-card form
 - `src/components/KanbanCard.tsx`
@@ -67,8 +73,10 @@ It is exported as static assets and served by the FastAPI backend.
   - Component behavior tests (render, rename, add/remove)
 - `src/components/KanbanApp.test.tsx`
   - Auth plus board load/retry behavior tests with mocked API responses
+- `src/components/AiSidebar.test.tsx`
+  - Sidebar chat send/receive and API error handling tests
 - `tests/kanban.spec.ts`
-  - Browser tests for login gate, persistence across refresh, and logout flow
+  - Browser tests for login gate, persistence across refresh, AI-driven board updates, and logout flow
 - `vitest.config.ts`, `src/test/setup.ts`, `playwright.config.ts`
   - Test runner configuration
 
