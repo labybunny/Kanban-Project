@@ -89,10 +89,7 @@ export const AiSidebar = ({ onBoardStateSync }: AiSidebarProps) => {
         </p>
       </div>
 
-      <div
-        className="mt-3 max-h-44 flex-1 space-y-2 overflow-y-auto pr-1"
-        data-testid="ai-chat-messages"
-      >
+      <div className="mt-3 h-44 space-y-2 overflow-y-auto pr-1" data-testid="ai-chat-messages">
         {messages.map((message, index) => (
           <article
             key={`${message.role}-${index}-${message.content.slice(0, 16)}`}

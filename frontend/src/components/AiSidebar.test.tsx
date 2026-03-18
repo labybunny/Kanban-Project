@@ -81,4 +81,10 @@ describe("AiSidebar", () => {
     expect(await screen.findByText(/i could not process that request right now/i)).toBeInTheDocument();
     expect(onBoardStateSync).not.toHaveBeenCalled();
   });
+
+  it("keeps the message viewport fixed height", () => {
+    render(<AiSidebar onBoardStateSync={vi.fn()} />);
+
+    expect(screen.getByTestId("ai-chat-messages")).toHaveClass("h-44");
+  });
 });
