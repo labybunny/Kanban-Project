@@ -12,7 +12,7 @@ The sequence is intentional. Do not start the next part until the current part p
 - Auth approach: backend-enforced session auth (dummy credentials: `user` / `password`)
 - Database: SQLite local file, auto-created if missing
 - Data model direction: Kanban data saved per `user_id` and `board_id` (JSON payload)
-- AI provider/model: OpenRouter with `openai/gpt-oss-120b:free`
+- AI provider/model: OpenRouter with `arcee-ai/trinity-large-preview:free`
 - AI safety boundary: backend is source of truth and validates all structured output updates before persist
 - Test defaults: backend `pytest`; frontend unit `vitest` + React Testing Library; e2e `playwright`
 
@@ -181,7 +181,7 @@ The sequence is intentional. Do not start the next part until the current part p
 
 - [x] Add backend OpenRouter client integration using `OPENROUTER_API_KEY`
 - [x] Implement minimal AI route for connectivity checks
-- [x] Use `openai/gpt-oss-120b:free` model
+- [x] Use `arcee-ai/trinity-large-preview:free` model
 - [x] Add secure config/error handling for missing key and provider failures
 - [x] Add a controlled "2+2" connectivity test path
 
@@ -233,6 +233,7 @@ The sequence is intentional. Do not start the next part until the current part p
 - [x] Automatically refresh/reconcile board when backend confirms AI-applied updates
 - [x] Show pending/error/retry states for chat actions
 - [x] Keep interactions accessible and visually aligned with project color scheme
+- [x] Position AI chat in top banner (left of Focus) to preserve board workspace width
 
 ### Tests
 

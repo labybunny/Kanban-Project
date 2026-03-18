@@ -37,7 +37,7 @@ This folder contains the FastAPI backend for the Project Management MVP.
   - Board read and upsert persistence helpers
 - `app/ai_client.py`
   - OpenRouter API integration client
-  - Uses model `openai/gpt-oss-120b:free`
+  - Uses model `arcee-ai/trinity-large-preview:free`
   - Handles missing key, request errors, plain text parsing, and structured JSON parsing
 - `app/ai_structured.py`
   - Structured AI response schema with optional board operations

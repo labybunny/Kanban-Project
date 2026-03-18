@@ -76,30 +76,33 @@ export const AiSidebar = ({ onBoardStateSync }: AiSidebarProps) => {
   };
 
   return (
-    <aside className="flex h-full min-h-[520px] flex-col rounded-3xl border border-[var(--stroke)] bg-white p-5 shadow-[var(--shadow)]">
-      <div className="border-b border-[var(--stroke)] pb-4">
+    <aside className="flex w-full min-w-[320px] max-w-[420px] flex-col rounded-2xl border border-[var(--stroke)] bg-white p-4 shadow-[var(--shadow)]">
+      <div className="border-b border-[var(--stroke)] pb-3">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--gray-text)]">
           AI Assistant
         </p>
-        <h2 className="mt-2 font-display text-xl font-semibold text-[var(--navy-dark)]">
+        <h2 className="mt-2 font-display text-lg font-semibold text-[var(--navy-dark)]">
           Board Copilot
         </h2>
-        <p className="mt-2 text-sm text-[var(--gray-text)]">
+        <p className="mt-2 text-xs leading-5 text-[var(--gray-text)]">
           Ask for board updates in plain language.
         </p>
       </div>
 
-      <div className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1" data-testid="ai-chat-messages">
+      <div
+        className="mt-3 max-h-44 flex-1 space-y-2 overflow-y-auto pr-1"
+        data-testid="ai-chat-messages"
+      >
         {messages.map((message, index) => (
           <article
             key={`${message.role}-${index}-${message.content.slice(0, 16)}`}
             className={
               message.role === "user"
-                ? "ml-10 rounded-2xl bg-[var(--secondary-purple)] px-3 py-2 text-sm text-white"
-                : "mr-10 rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--navy-dark)]"
+                ? "ml-6 rounded-2xl bg-[var(--secondary-purple)] px-3 py-2 text-xs text-white"
+                : "mr-6 rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--navy-dark)]"
             }
           >
-            <p className="whitespace-pre-wrap leading-6">{message.content}</p>
+            <p className="whitespace-pre-wrap leading-5">{message.content}</p>
             {message.warning ? (
               <p className="mt-2 rounded-lg bg-[rgba(236,173,10,0.14)] px-2 py-1 text-xs font-semibold text-[var(--navy-dark)]">
                 {message.warning}
@@ -109,13 +112,13 @@ export const AiSidebar = ({ onBoardStateSync }: AiSidebarProps) => {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-4 space-y-3" data-testid="ai-chat-form">
+      <form onSubmit={handleSubmit} className="mt-3 space-y-2" data-testid="ai-chat-form">
         <textarea
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder="Example: Move card-1 to Review and rename Backlog to Roadmap."
-          rows={3}
-          className="w-full resize-none rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--navy-dark)] outline-none transition focus:border-[var(--primary-blue)]"
+          rows={2}
+          className="w-full resize-none rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--navy-dark)] outline-none transition focus:border-[var(--primary-blue)]"
           disabled={isSending}
         />
         {error ? (

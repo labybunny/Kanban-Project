@@ -7,7 +7,7 @@ from typing import Any
 import httpx
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-OPENROUTER_MODEL = "openai/gpt-oss-120b:free"
+OPENROUTER_MODEL = "arcee-ai/trinity-large-preview:free"
 
 
 class OpenRouterConfigurationError(Exception):

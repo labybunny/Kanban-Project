@@ -10,7 +10,7 @@ def test_ai_test_endpoint_returns_output(client: TestClient, monkeypatch) -> Non
 
     assert response.status_code == 200
     body = response.json()
-    assert body["model"] == "openai/gpt-oss-120b:free"
+    assert body["model"] == "arcee-ai/trinity-large-preview:free"
     assert body["output"] == "4"
 
 
