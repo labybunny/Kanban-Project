@@ -157,23 +157,23 @@ The sequence is intentional. Do not start the next part until the current part p
 
 ### Checklist
 
-- [ ] Replace in-memory board state initialization with backend fetch on load
-- [ ] Send user actions (rename/add/delete/move) to backend persistence APIs
-- [ ] Add loading, empty, and error states for API-driven workflow
-- [ ] Keep UX responsive while syncing server state
-- [ ] Ensure data reload reflects persisted board state
+- [x] Replace in-memory board state initialization with backend fetch on load
+- [x] Send user actions (rename/add/delete/move) to backend persistence APIs
+- [x] Add loading, empty, and error states for API-driven workflow
+- [x] Keep UX responsive while syncing server state
+- [x] Ensure data reload reflects persisted board state
 
 ### Tests
 
-- [ ] Frontend unit tests for API client and state transition behavior
-- [ ] Integration tests with mocked API responses for success/failure
-- [ ] E2E tests for persistence across refresh
-- [ ] Backend tests remain green for contract compatibility
+- [x] Frontend unit tests for API client and state transition behavior
+- [x] Integration tests with mocked API responses for success/failure
+- [x] E2E tests for persistence across refresh
+- [x] Backend tests remain green for contract compatibility
 
 ### Success Criteria
 
-- [ ] Board state persists across page refresh and app restarts
-- [ ] Frontend no longer depends on hardcoded runtime board state
+- [x] Board state persists across page refresh and app restarts
+- [x] Frontend no longer depends on hardcoded runtime board state
 
 ## Part 8 - AI Connectivity
 

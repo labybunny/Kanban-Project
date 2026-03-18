@@ -26,7 +26,9 @@ It is exported as static assets and served by the FastAPI backend.
   - moved across columns via drag-and-drop
   - created from the "Add a card" form
   - removed with the card action button
-- All board state is in-memory in React state, initialized from `initialData`
+- Board state is loaded from `GET /api/boards/main` after authentication
+- User edits are sent to `PUT /api/boards/main` and persist across refresh
+- UI includes loading, retry, and sync-error states for board API interactions
 
 ## Key Files
 
@@ -39,9 +41,13 @@ It is exported as static assets and served by the FastAPI backend.
 - `src/components/KanbanApp.tsx`
   - Auth gate and login form
   - Session check (`/api/auth/me`) and login/logout API calls
+  - Board load/retry flow and board persistence wiring
 - `src/components/KanbanBoard.tsx`
   - Top-level board state, drag lifecycle, rename/add/delete handlers
+  - Optimistic updates with persistence callback on board changes
   - Shows signed-in user and logout action when authenticated
+- `src/lib/api.ts`
+  - Typed frontend API helpers for auth and board read/update requests
 - `src/components/KanbanColumn.tsx`
   - Column UI, droppable container, title input, card list, new-card form
 - `src/components/KanbanCard.tsx`
@@ -60,9 +66,9 @@ It is exported as static assets and served by the FastAPI backend.
 - `src/components/KanbanBoard.test.tsx`
   - Component behavior tests (render, rename, add/remove)
 - `src/components/KanbanApp.test.tsx`
-  - Auth UI tests (unauthenticated state, login success, logout flow)
+  - Auth plus board load/retry behavior tests with mocked API responses
 - `tests/kanban.spec.ts`
-  - Browser tests for login gate, board interactions, and logout flow
+  - Browser tests for login gate, persistence across refresh, and logout flow
 - `vitest.config.ts`, `src/test/setup.ts`, `playwright.config.ts`
   - Test runner configuration
 

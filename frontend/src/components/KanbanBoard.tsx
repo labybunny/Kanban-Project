@@ -18,10 +18,21 @@ import { createId, initialData, moveCard, type BoardData } from "@/lib/kanban";
 type KanbanBoardProps = {
   username?: string;
   onLogout?: () => void | Promise<void>;
+  initialBoard?: BoardData;
+  onBoardPersist?: (nextBoard: BoardData) => Promise<void> | void;
+  isSaving?: boolean;
+  syncError?: string | null;
 };
 
-export const KanbanBoard = ({ username, onLogout }: KanbanBoardProps) => {
-  const [board, setBoard] = useState<BoardData>(() => initialData);
+export const KanbanBoard = ({
+  username,
+  onLogout,
+  initialBoard,
+  onBoardPersist,
+  isSaving = false,
+  syncError = null,
+}: KanbanBoardProps) => {
+  const [board, setBoard] = useState<BoardData>(() => initialBoard ?? initialData);
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
   const sensors = useSensors(
@@ -31,6 +42,14 @@ export const KanbanBoard = ({ username, onLogout }: KanbanBoardProps) => {
   );
 
   const cardsById = useMemo(() => board.cards, [board.cards]);
+
+  const updateBoard = (updater: (previousBoard: BoardData) => BoardData) => {
+    setBoard((previousBoard) => {
+      const nextBoard = updater(previousBoard);
+      void onBoardPersist?.(nextBoard);
+      return nextBoard;
+    });
+  };
 
   const handleDragStart = (event: DragStartEvent) => {
     setActiveCardId(event.active.id as string);
@@ -44,16 +63,16 @@ export const KanbanBoard = ({ username, onLogout }: KanbanBoardProps) => {
       return;
     }
 
-    setBoard((prev) => ({
-      ...prev,
-      columns: moveCard(prev.columns, active.id as string, over.id as string),
+    updateBoard((previousBoard) => ({
+      ...previousBoard,
+      columns: moveCard(previousBoard.columns, active.id as string, over.id as string),
     }));
   };
 
   const handleRenameColumn = (columnId: string, title: string) => {
-    setBoard((prev) => ({
-      ...prev,
-      columns: prev.columns.map((column) =>
+    updateBoard((previousBoard) => ({
+      ...previousBoard,
+      columns: previousBoard.columns.map((column) =>
         column.id === columnId ? { ...column, title } : column
       ),
     }));
@@ -61,13 +80,13 @@ export const KanbanBoard = ({ username, onLogout }: KanbanBoardProps) => {
 
   const handleAddCard = (columnId: string, title: string, details: string) => {
     const id = createId("card");
-    setBoard((prev) => ({
-      ...prev,
+    updateBoard((previousBoard) => ({
+      ...previousBoard,
       cards: {
-        ...prev.cards,
+        ...previousBoard.cards,
         [id]: { id, title, details: details || "No details yet." },
       },
-      columns: prev.columns.map((column) =>
+      columns: previousBoard.columns.map((column) =>
         column.id === columnId
           ? { ...column, cardIds: [...column.cardIds, id] }
           : column
@@ -76,13 +95,13 @@ export const KanbanBoard = ({ username, onLogout }: KanbanBoardProps) => {
   };
 
   const handleDeleteCard = (columnId: string, cardId: string) => {
-    setBoard((prev) => {
+    updateBoard((previousBoard) => {
       return {
-        ...prev,
+        ...previousBoard,
         cards: Object.fromEntries(
-          Object.entries(prev.cards).filter(([id]) => id !== cardId)
+          Object.entries(previousBoard.cards).filter(([id]) => id !== cardId)
         ),
-        columns: prev.columns.map((column) =>
+        columns: previousBoard.columns.map((column) =>
           column.id === columnId
             ? {
                 ...column,
@@ -141,6 +160,14 @@ export const KanbanBoard = ({ username, onLogout }: KanbanBoardProps) => {
                     >
                       Log out
                     </button>
+                  ) : null}
+                  {isSaving ? (
+                    <p className="mt-3 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--primary-blue)]">
+                      Saving changes...
+                    </p>
+                  ) : null}
+                  {syncError ? (
+                    <p className="mt-2 text-xs font-semibold text-[#8f1f2e]">{syncError}</p>
                   ) : null}
                 </div>
               ) : null}

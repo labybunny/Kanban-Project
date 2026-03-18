@@ -1,8 +1,13 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { KanbanApp } from "@/components/KanbanApp";
+import { initialData } from "@/lib/kanban";
 
 const mockFetch = vi.fn<typeof fetch>();
+const boardPayload = {
+  boardKey: "main",
+  state: JSON.parse(JSON.stringify(initialData)),
+};
 
 describe("KanbanApp auth flow", () => {
   beforeEach(() => {
@@ -35,6 +40,12 @@ describe("KanbanApp auth flow", () => {
           status: 200,
           headers: { "Content-Type": "application/json" },
         })
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(boardPayload), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        })
       );
 
     render(<KanbanApp />);
@@ -53,6 +64,7 @@ describe("KanbanApp auth flow", () => {
         method: "POST",
       })
     );
+    expect(mockFetch.mock.calls.some(([path]) => path === "/api/boards/main")).toBe(true);
   });
 
   it("logs out back to the login screen", async () => {
@@ -63,7 +75,18 @@ describe("KanbanApp auth flow", () => {
           headers: { "Content-Type": "application/json" },
         })
       )
-      .mockResolvedValueOnce(new Response(JSON.stringify({ status: "logged_out" }), { status: 200 }));
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(boardPayload), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        })
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ status: "logged_out" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        })
+      );
 
     render(<KanbanApp />);
 
@@ -73,5 +96,33 @@ describe("KanbanApp auth flow", () => {
     await waitFor(() => {
       expect(screen.getByRole("heading", { name: /sign in to kanban studio/i })).toBeInTheDocument();
     });
+  });
+
+  it("shows board loading error and retries successfully", async () => {
+    mockFetch
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ username: "user" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        })
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ detail: "Server error" }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        })
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(boardPayload), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        })
+      );
+
+    render(<KanbanApp />);
+
+    expect(await screen.findByText(/unable to load board/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /retry/i }));
+    expect(await screen.findByRole("heading", { name: "Kanban Studio" })).toBeInTheDocument();
   });
 });
